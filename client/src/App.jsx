@@ -11,12 +11,23 @@ import fetchTransactions from './data/featchdata';
 function App() {
   const [transactions, setTransactions] = useState([]);
 
+  useEffect(() => {
+    const getTransactions = async () => {
+        const transactionsFromServer = await fetchTransactions();
+        setTransactions(transactionsFromServer);
+    };
+    getTransactions();
+}, []);
+  console.log("Transactions state:", transactions); // Log transactions state for debugging
+
+
  
 
  
   return (
     <Router>
         <div className="min-h-screen bg-[#000000] text-white">
+          
 
         <Header transactions={transactions}/>
      
@@ -24,7 +35,9 @@ function App() {
             <Route path="/" element={
               <ProtectedRoute>
 
-                <Home  transactions={transactions} setTransactions={setTransactions} />
+                <Home transactions={transactions} setTransactions={setTransactions} />
+                console.log("Rendering Home with transactions:", transactions); // Log transactions being passed to Home
+
               </ProtectedRoute>
               }/>
             <Route path="/login" element={<Login />}/>
