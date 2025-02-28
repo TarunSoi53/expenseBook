@@ -3,13 +3,15 @@ import React,{ useState,useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from './pages/Login';
 import Register from './pages/Register';
-import Home from './pages/home';
+import Home from './pages/Home';
 import Header from './components/header';
 import ProtectedRoute from './security/ProtectedRoute';
 import fetchTransactions from './data/featchdata';
 
 function App() {
   const [transactions, setTransactions] = useState([]);
+  const[localTranscations, setLocalTransactions] = useState([]);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
     const getTransactions = async () => {
@@ -29,7 +31,7 @@ function App() {
         <div className="min-h-screen bg-[#000000] text-white">
           
 
-        <Header transactions={transactions}/>
+        <Header  isAuthenticated={isAuthenticated} transactions={transactions}/>
      
         <Routes>
             <Route path="/" element={
@@ -40,7 +42,7 @@ function App() {
 
               </ProtectedRoute>
               }/>
-            <Route path="/login" element={<Login />}/>
+            <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} />}/>
             <Route path="/register" element={<Register />}/>
       
 
