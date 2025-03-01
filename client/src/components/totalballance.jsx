@@ -10,7 +10,7 @@ const TotalBalance = ({ transactions }) => {
   }, 0);
 
   return (
-    <div className="bg-gray-800 p-4 rounded-lg shadow-lg backdrop-blur-sm bg-opacity-50 border border-gray-700">
+    <div className="bg-gray-800 z-30 p-2 m-4 fixed top-0 right-0 rounded-lg shadow-lg backdrop-blur-sm bg-opacity-50 border border-gray-700">
       <h3 className="text-lg font-semibold">
         Total Balance: <span className={totalBalance >= 0 ? 'text-green-400' : 'text-red-400'}>
           ₹{totalBalance.toFixed(2)}

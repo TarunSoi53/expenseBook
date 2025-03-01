@@ -5,6 +5,8 @@ function AddTransaction({ onAddTransaction }) {
     const [amount, setAmount] = useState('');
     const [description, setDescription] = useState('');
     const [category, setCategory] = useState('');
+    const [date, setDate] = useState(Date.now());
+  
 
     const handleSubmit = (e, amountType) => {
         console.log('Submitting transaction');
@@ -51,6 +53,17 @@ function AddTransaction({ onAddTransaction }) {
                     className="mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:ring-blue-500 focus:border-blue-500"
                     placeholder="Enter description"
                     required
+                />
+            </div>
+            <div>
+                <label className="block text-sm font-medium text-gray-300">date</label>
+                <input
+                    type="date"
+                    value={date}
+                    onChange={(e) => setDate(e.target.value)}
+                    className="mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:ring-blue-500 focus:border-blue-500"
+                    placeholder="Enter date"
+                    
                 />
             </div>
 

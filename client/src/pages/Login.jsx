@@ -2,7 +2,7 @@ import React,{useState} from 'react';
 import api from '../axios/api';
 import { useNavigate } from 'react-router-dom'; 
 
-function Login(setIsAuthenticated) {
+function Login({setIsAuthenticated}) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -24,6 +24,7 @@ function Login(setIsAuthenticated) {
         localStorage.setItem('token', response.data.token);
         setSuccess(true);
         setIsAuthenticated(true);
+
         setMessage('Login successful');
         setTimeout(() => {
           setSuccess(false);

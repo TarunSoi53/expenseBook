@@ -1,0 +1,18 @@
+.background-pattern {
+    background-color: #000000;
+    opacity: 1;
+    z-index: -1;
+    background-image: linear-gradient(#13242e 2.6px, transparent 2.6px),
+      linear-gradient(to right, #13242e 2.6px, #000000 2.6px);
+    background-size: 52px 52px;
+    animation: moveBackground 4s linear infinite; /* Adjust 60s for slower animation */
+  }
+  
+  @keyframes moveBackground {
+    0% {
+      background-position: 0 0;
+    }
+    100% {
+      background-position: 0 52px; /* Moves the pattern up by one tile */
+    }
+  }
