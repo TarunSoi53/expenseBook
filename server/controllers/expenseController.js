@@ -18,12 +18,13 @@ const getExpenses = async(req, res) => {
 const addExpense = async(req, res) => {
     const user_id=req.user;
     try {
-        const { name, amount,category,amountType } = req.body;
+        const { name,description, amount,category,amountType } = req.body;
         date = req.body.date;
         
         const expense = {
             name,
             category,
+            description,
             amountType,
             amount,
             user: user_id
@@ -35,7 +36,7 @@ const addExpense = async(req, res) => {
         console.log(name, amount, date);
         const newExpense = new Expense(expense);
         await newExpense.save();
-        res.json(newExpense);
+        res.json({newExpense,success:true});
     } catch (err) {
         console.error(err.message);
         res.status(500).send("Server error");
@@ -95,6 +96,36 @@ const getTotalExpence = async(req, res) => {
             totalReceived: totals.totalReceived,
             grossBalance
         });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+}
+
+const getTotalExpensesbyDate = async(req, res) => {
+    try {
+        const result = await Expense.aggregate([
+            { $match: { user: new mongoose.Types.ObjectId(req.user) } },
+            {
+                $group: {
+                    _id: { date: { $dateToString: { format: "%Y-%m-%", date: "$date" } } },
+                    totalSent: { 
+                        $sum: { 
+                            $cond: [{ $eq: ["$amountType", "sent"] }, "$amount", 0] 
+                        } 
+                    },
+                    totalReceived: { 
+                        $sum: { 
+                            $cond: [{ $eq: ["$amountType", "received"] }, "$amount", 0] 
+                        } 
+                    }
+                }
+            },
+            { $sort: { "_id.date": 1 } }
+        ]);
+        console.log(result);
+        
+        res.json(result);
+        
     } catch (err) {
         res.status(500).json({ error: err.message });
     }

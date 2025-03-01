@@ -2,7 +2,7 @@ import React,{useState} from 'react';
 import api from '../axios/api';
 import { useNavigate } from 'react-router-dom'; 
 
-function Login() {
+function Login({setIsAuthenticated}) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -23,19 +23,30 @@ function Login() {
       if (response.data.success) {
         localStorage.setItem('token', response.data.token);
         setSuccess(true);
+        setIsAuthenticated(true);
+
         setMessage('Login successful');
         setTimeout(() => {
           setSuccess(false);
         }, 3000);
+        setLoading(false);
+        setPassword("")
+        setLoading(false);
+        setEmail("")
         navigate('/');
       } else {
         setError(response.data.message);
+       
       }
     } catch (error) {
       console.error(error);
       setError('Failed to login');
     } finally {
       setLoading(false);
+      setPassword("")
+      setLoading(false);
+      setEmail("")
+      setMessage('');
     }
   };
 
@@ -49,6 +60,7 @@ function Login() {
             <input
               type="email"
               onChange={(e) => setEmail(e.target.value)}
+              value={email}
               className="mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:ring-blue-500 focus:border-blue-500"
               placeholder="Enter your email"
             />
@@ -58,6 +70,7 @@ function Login() {
             <input
               type="password"
               onChange={(e) => setPassword(e.target.value)}
+              value={password}
               className="mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:ring-blue-500 focus:border-blue-500"
               placeholder="Enter your password"
             />
